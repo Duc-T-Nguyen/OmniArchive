@@ -1,0 +1,37 @@
+.toggle-btn {
+    background-color: #b7b9ba;
+    border: 1px solid #aaa;
+    border-radius: 99px;
+    width: 50px;
+    height: 28px;
+    transition: background-color 0.1s ease, border-color 0.2s ease;
+    cursor: pointer;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.748);
+    position: relative;
+    padding: 0; /* Added to prevent default button padding */
+}
+
+.toggle-btn .thumb {
+    height: 20px;
+    width: 20px;
+    background-color: #c48a8a;
+    border-color: #ec7070;
+    border-radius: 99px;
+    transition: left 0.15s ease;
+    position: absolute;
+    left: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.toggle-btn:hover {
+    background-color: #e3dfe7;
+}
+
+.toggle-btn.toggled {
+    background-color: #9534eb; /* Added to show active state */
+}
+
+.toggle-btn.toggled .thumb {
+    left: calc(100% - 20px - 3px); /* Better calculation for right position */
+}
