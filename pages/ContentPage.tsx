@@ -1,4 +1,4 @@
-
+import './ContentPage.css'
 
 function ContentPage() {
 
@@ -7,8 +7,12 @@ function ContentPage() {
       <>
         <div className="container">
 
-          <h1>Content Page</h1>
+          <h1 className="content_header">Content Page</h1>
 
+        </div>
+
+        <div>
+          
         </div>
         
       </>

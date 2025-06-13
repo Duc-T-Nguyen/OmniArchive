@@ -13,3 +13,99 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model category {
+  id                   Int      @id @default(autoincrement())
+  category_name        String
+  category_description String?
+
+  @@map("category")
+  categorylist categorylist[]
+}
+
+model keyword {
+  id                   Int      @id @default(autoincrement())
+  keyword_name         String
+  keyword_description  String?
+
+  @@map("keyword")
+  keywordlist keywordlist[]
+}
+
+model author {
+  id          Int               @id @default(autoincrement())
+  country     String
+
+  @@map("author")
+  author_to_books author_books[]
+}
+
+model book {
+  id          Int               @id @default(autoincrement())
+  book_title  String
+  author      String
+  translator  String?
+  publish_date String
+  publish_location  String
+  country     String
+  description String
+  language    String
+  isbn        String  @unique
+
+  @@map("book")
+  categorylist categorylist[]
+  keywordlist keywordlist[]
+  author_to_books author_books[]
+}
+
+model document {
+  id         Int               @id @default(autoincrement())
+  document_title  String
+
+  author          String
+  translator      String?
+  publish_date    String
+  publish_location  String
+  country         String
+  description     String []
+  language        String
+
+  @@map("document")
+}
+
+
+model author_books {
+  author_id          Int               
+  book_id            Int            
+
+  author author @relation(fields: [author_id], references: [id])
+  book   book   @relation(fields: [book_id], references: [id])
+
+  @@id([author_id, book_id])
+  @@map("author_books")
+}
+
+// many books will have many categories and vice versa
+model categorylist {
+  book_id     Int
+  category_id Int
+
+  book     book     @relation(fields: [book_id], references: [id])
+  category category @relation(fields: [category_id], references: [id])
+
+  @@id([book_id, category_id])
+  @@map("category_list")
+}
+
+
+// many books will have many keywords and vice versa
+model keywordlist {
+  book_id    Int
+  keyword_id Int
+
+  book book       @relation(fields: [book_id], references: [id])
+  keyword keyword @relation(fields: [keyword_id], references: [id])
+
+  @@id([book_id, keyword_id])
+  @@map("keyword_list")
+}

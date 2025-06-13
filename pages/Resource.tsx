@@ -1,4 +1,4 @@
-
+import './Resource.css'
 
 function Portfolio() {
 
@@ -7,7 +7,7 @@ function Portfolio() {
       <>
         <div className="container">
 
-          <h1>Portfolio</h1>
+          <h1 className='resource_header'>Portfolio</h1>
 
         </div>
         
