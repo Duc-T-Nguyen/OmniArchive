@@ -1,4 +1,6 @@
-import Cardmodule from "../components/Cardmodule";
+import Cardmodule from "../../components/Cardmodule";
+
+
 import './About.css';
 
 export default function About() {

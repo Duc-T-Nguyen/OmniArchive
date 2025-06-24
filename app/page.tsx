@@ -31,17 +31,12 @@ function App() {
     return (
         <>
             <div className="container">
-              <NavigationBar />
               <Homepagecomp cardsData={map} />
 
 
             </div>
             
       </>
-
-
-
-
 
     );
 }
