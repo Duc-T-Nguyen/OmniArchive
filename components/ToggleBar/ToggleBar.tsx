@@ -1,15 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import './ToggleBar.css';
 import dark_mode from '../../assests/night.png';
 import light_mode from '../../assests/day.png';
 
 const Togglebar: React.FC = () => {
     const [toggled, set_toggled] = useState<boolean>(false);
+
+    useEffect(()=>{
+        const savedState = localStorage.getItem('toggleState');
+        if (savedState !== null){
+            set_toggled(JSON.parse(savedState));
+        }
+
+    }, []);
     
     const toggle_image = (): void => {
         set_toggled(!toggled);
+        localStorage.setItem('toggleState', JSON.stringify(!toggled));
     }
     
     return (

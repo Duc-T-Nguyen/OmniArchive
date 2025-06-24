@@ -37,40 +37,45 @@ model author {
   country     String
 
   @@map("author")
-  author_to_books author_books[]
+  author_books author_books[]
+  author_documents  author_documents[]
 }
 
 model book {
   id          Int               @id @default(autoincrement())
   book_title  String
   author      String
+  publisher   String
   translator  String?
   publish_date String
   publish_location  String
   country     String
   description String
+  link        String
   language    String
   isbn        String  @unique
 
   @@map("book")
   categorylist categorylist[]
   keywordlist keywordlist[]
-  author_to_books author_books[]
+  author_books author_books[]
 }
 
 model document {
   id         Int               @id @default(autoincrement())
   document_title  String
-
   author          String
   translator      String?
   publish_date    String
+  publisher       String
   publish_location  String
   country         String
-  description     String []
+  description     String
+  link            String
   language        String
 
   @@map("document")
+  author_documents  author_documents[]
 }
 
 
@@ -83,6 +88,17 @@ model author_books {
 
   @@id([author_id, book_id])
   @@map("author_books")
+}
+
+model author_documents {
+  author_id              Int
+  documents_id           Int
+
+  author    author  @relation(fields: [author_id], references: [id])
+  document  document @relation(fields: [documents_id], references: [id])
+
+  @@id([author_id, documents_id])
+  @@map("author_documents")
 }
 
 // many books will have many categories and vice versa
