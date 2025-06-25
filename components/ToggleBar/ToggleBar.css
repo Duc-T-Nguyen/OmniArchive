@@ -31,6 +31,9 @@
 .toggle-btn.toggled {
     background-color: #9534eb; /* Added to show active state */
 }
+.toggle-btn.toggled:hover{
+    background-color: #ae62f1;
+}
 
 .toggle-btn.toggled .thumb {
     left: calc(100% - 20px - 3px); /* Better calculation for right position */

@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../app/generated/prisma"
@@ -14,114 +8,104 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model category {
-  id                   Int      @id @default(autoincrement())
+model Category {
+  id                   Int            @id @default(autoincrement())
   category_name        String
   category_description String?
+  CategoryList         CategoryList[]
 
-  @@map("category")
-  categorylist categorylist[]
+  @@map("Category")
 }
 
-model keyword {
-  id                   Int      @id @default(autoincrement())
-  keyword_name         String
-  keyword_description  String?
+model Keyword {
+  id                  Int           @id @default(autoincrement())
+  keyword_name        String
+  keyword_description String?
+  KeywordList         KeywordList[]
 
-  @@map("keyword")
-  keywordlist keywordlist[]
+  @@map("Keyword")
 }
 
-model author {
-  id          Int               @id @default(autoincrement())
-  country     String
-
-  @@map("author")
-  author_books author_books[]
-  author_documents  author_documents[]
-}
-
-model book {
-  id          Int               @id @default(autoincrement())
-  book_title  String
-  author      String
-  publisher   String
-  translator  String?
-  publish_date String
-  publish_location  String
-  country     String
-  description String
-  link        String
-  language    String
-  isbn        String  @unique
-
-  @@map("book")
-  categorylist categorylist[]
-  keywordlist keywordlist[]
-  author_books author_books[]
-}
-
-model document {
-  id         Int               @id @default(autoincrement())
-  document_title  String
-  author          String
-  translator      String?
-  publish_date    String
-  publisher       String
-  publish_location  String
+model Author {
+  id              Int               @id @default(autoincrement())
   country         String
-  description     String
-  link            String
-  language        String
+  AuthorBooks     AuthorBooks[]
+  AuthorDocuments AuthorDocuments[]
+
+  @@map("Author")
+}
+
+model Book {
+  id               Int            @id @default(autoincrement())
+  book_title       String
+  publisher        String
+  translator       String?
+  publish_date     String
+  publish_location String
+  country          String
+  description      String
+  link             String
+  language         String
+  isbn             String         @unique
+  AuthorBooks      AuthorBooks[]
+  CategoryList     CategoryList[]
+  KeywordList      KeywordList[]
+
+  @@map("Book")
+}
+
+model Document {
+  id               Int               @id @default(autoincrement())
+  document_title   String
+  translator       String?
+  publish_date     String
+  publisher        String
+  publish_location String
+  country          String
+  description      String
+  link             String
+  language         String
+  AuthorDocuments  AuthorDocuments[]
 
   @@map("document")
-  author_documents  author_documents[]
 }
 
-
-model author_books {
-  author_id          Int               
-  book_id            Int            
-
-  author author @relation(fields: [author_id], references: [id])
-  book   book   @relation(fields: [book_id], references: [id])
+model AuthorBooks {
+  author_id Int
+  book_id   Int
+  Author    Author @relation(fields: [author_id], references: [id])
+  Book      Book   @relation(fields: [book_id], references: [id])
 
   @@id([author_id, book_id])
-  @@map("author_books")
+  @@map("AuthorBooks")
 }
 
-model author_documents {
-  author_id              Int
-  documents_id           Int
-
-  author    author  @relation(fields: [author_id], references: [id])
-  document  document @relation(fields: [documents_id], references: [id])
+model AuthorDocuments {
+  author_id    Int
+  documents_id Int
+  Author       Author   @relation(fields: [author_id], references: [id])
+  Document     Document @relation(fields: [documents_id], references: [id])
 
   @@id([author_id, documents_id])
-  @@map("author_documents")
+  @@map("AuthorDocuments")
 }
 
-// many books will have many categories and vice versa
-model categorylist {
+model CategoryList {
   book_id     Int
   category_id Int
-
-  book     book     @relation(fields: [book_id], references: [id])
-  category category @relation(fields: [category_id], references: [id])
+  Book        Book     @relation(fields: [book_id], references: [id])
+  Category    Category @relation(fields: [category_id], references: [id])
 
   @@id([book_id, category_id])
-  @@map("category_list")
+  @@map("CategoryList")
 }
 
-
-// many books will have many keywords and vice versa
-model keywordlist {
+model KeywordList {
   book_id    Int
   keyword_id Int
-
-  book book       @relation(fields: [book_id], references: [id])
-  keyword keyword @relation(fields: [keyword_id], references: [id])
+  Book       Book    @relation(fields: [book_id], references: [id])
+  Keyword    Keyword @relation(fields: [keyword_id], references: [id])
 
   @@id([book_id, keyword_id])
-  @@map("keyword_list")
+  @@map("KeywordList")
 }

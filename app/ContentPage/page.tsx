@@ -1,4 +1,5 @@
 import './ContentPage.css'
+import {SearchBar} from '../../components/Search/SearchBar';
 
 function ContentPage() {
 
@@ -8,6 +9,9 @@ function ContentPage() {
         <div className="container">
 
           <h1 className="content_header">Content Page</h1>
+
+          <SearchBar />
+          <div>SearchResults</div>
 
         </div>
 
