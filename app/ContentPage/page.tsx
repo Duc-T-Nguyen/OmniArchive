@@ -11,7 +11,6 @@ function ContentPage() {
           <h1 className="content_header">Content Page</h1>
 
           <SearchBar />
-          <div>SearchResults</div>
 
         </div>
 

@@ -8,11 +8,10 @@
     padding: 0 15px;
     box-shadow: 0px 0px 8px grey;
     margin: auto auto -50px auto;
-    margin-top: 100px;
+    margin-top: 90px;
     align-items: center;
 
 }
-
 
 .input{
 
@@ -28,8 +27,17 @@ input:focus{
     outline: none;
 }
 
-.search_icon{
 
-    color: royalblue;
+.filter-btn{
+    border-radius: 10px;
+    background-color: rgb(212, 208, 208);
+    width: 5rem;
+    height: 2.5rem;
+    margin: 10px;
+    
+
 }
 
+.filter-btn:hover{
+
+}

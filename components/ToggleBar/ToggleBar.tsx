@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import './ToggleBar.css';
-import dark_mode from '../../assests/night.png';
-import light_mode from '../../assests/day.png';
+import dark_mode from '../../assets/night.png';
+import light_mode from '../../assets/day.png';
 
 const Togglebar: React.FC = () => {
     const [toggled, set_toggled] = useState<boolean>(false);
