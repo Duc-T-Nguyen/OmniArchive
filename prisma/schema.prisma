@@ -29,6 +29,8 @@ model Keyword {
 model Author {
   id              Int               @id @default(autoincrement())
   country         String
+  first_name      String
+  last_name       String
   AuthorBooks     AuthorBooks[]
   AuthorDocuments AuthorDocuments[]
 
@@ -51,7 +53,7 @@ model Book {
   CategoryList     CategoryList[]
   KeywordList      KeywordList[]
 
-  @@map("Book")
+  @@map("book")
 }
 
 model Document {
@@ -66,6 +68,9 @@ model Document {
   link             String
   language         String
   AuthorDocuments  AuthorDocuments[]
+  CategoryList CategoryList[]
+  KeywordList KeywordList[]
+
 
   @@map("document")
 }
@@ -91,21 +96,29 @@ model AuthorDocuments {
 }
 
 model CategoryList {
-  book_id     Int
+  id          Int @id @default(autoincrement())
+  book_id     Int?
+  document_id Int?
   category_id Int
-  Book        Book     @relation(fields: [book_id], references: [id])
+  Book        Book?     @relation(fields: [book_id], references: [id])
+  Document    Document? @relation(fields: [document_id], references: [id])
   Category    Category @relation(fields: [category_id], references: [id])
 
-  @@id([book_id, category_id])
+  @@unique([book_id, category_id])
+  @@unique([document_id, category_id])
   @@map("CategoryList")
 }
 
 model KeywordList {
-  book_id    Int
+  id         Int @id @default(autoincrement())
+  document_id Int? 
+  book_id    Int?
   keyword_id Int
-  Book       Book    @relation(fields: [book_id], references: [id])
-  Keyword    Keyword @relation(fields: [keyword_id], references: [id])
+  Book       Book?     @relation(fields: [book_id], references: [id])
+  Document   Document? @relation(fields: [document_id], references: [id])
+  Keyword    Keyword   @relation(fields: [keyword_id], references: [id])
 
-  @@id([book_id, keyword_id])
+  @@unique([book_id, keyword_id])
+  @@unique([document_id, keyword_id])
   @@map("KeywordList")
 }
