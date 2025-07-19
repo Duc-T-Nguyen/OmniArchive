@@ -1,21 +1,26 @@
-import { Prisma } from "@prisma/client/extension";
-import { title } from "process";
+import { PrismaClient } from "@prisma/client";
 
 
-const prisma = newPrismaCLient()
+const prisma = new PrismaClient()
 
 
 
 export default async function handler  (req, res){
     // check the incoming message method to ensure POST
     if (req.method != 'POST'){
-        req.status(405).json({message: 'failed search because of method request'})
+        res.status(405).json({message: 'failed search because of method request'})
     }
     
-    const {query, type, limit} = req.query;
+    const {query, type, limit} = req.body;
+
+
+    if (!query || !type || !limit){
+        res.status(400).json({message: 'failed because of the required params are missing'})
+    }
 
     try {
 
+        let results  = []
         if (type == 'Books' || type == 'All'){
 
            const results = await prisma.book.findMany({
@@ -44,8 +49,8 @@ export default async function handler  (req, res){
                     include: {
                         Author: {
                             select: {
-                                first_name,
-                                last_name,
+                                first_name: true,
+                                last_name: true,
                             }
 
                         }
@@ -56,39 +61,50 @@ export default async function handler  (req, res){
                     include: {
                         Category: {
                             select: {
-                                catgory_name
+                                category_name: true
                             }
                         }
                     }
 
+                },
+                KeywordList: {
+                    include: {
+                        Keyword: {
+                            select: {
+                                keyword_name: true
+                            }
+                        }
+                    }
                 }
 
             },
-            take: type == 'Books' ? limit: Math.ceil(limit/2),
+            take: type == 'Books' ? limit: Math.ceil(limit / 2),
             orderBy: [
                 {book_title: 'asc',}
             ]
            })
 
            const bookResults = results.map(book =>({
-            id: book.id,
-            book_title: book.book_title,
-            publisher: book.publisher,
-            translator: book.translator,
-            publish_date: book.publish_date,
-            publish_location: book.publish_location,
-            country: book.country,
-            description: book.description,
-            language: book.language,
-            isbn: book.isbn,
-            author: AuthorBooks.map(author_book =>
-                `${author_book.Author.first_name}
-                ${author_book.Author.last_name}`.trim()
-            ), 
-            categories: book.CategoryList.map(cl => cl.Category.category_name),
-            link: book.link
+                id: book.id,
+                book_title: book.book_title,
+                publisher: book.publisher,
+                translator: book.translator,
+                publish_date: book.publish_date,
+                publish_location: book.publish_location,
+                country: book.country,
+                description: book.description,
+                language: book.language,
+                isbn: book.isbn,
+                author: AuthorBooks.map(author_book =>
+                    `${author_book.Author.first_name}
+                    ${author_book.Author.last_name}`.trim()
+                ), 
+                category: book.CategoryList.map(cl => cl.Category.category_name),
+                keyword: document.KeywordList.map(kl => kl.keyword.keyword_name),
+                link: book.link,
+                type: 'book'
            }))
-           result = [...results, ...bookResults];
+           results = [...results, ...bookResults];
         }
 
         if (type == 'All' || type == 'Documents'){
@@ -121,8 +137,8 @@ export default async function handler  (req, res){
                         include: {
                             Category: {
                                 select: {
-                                    first_name,
-                                    last_name,
+                                    first_name: true,
+                                    last_name: true,
                                     
                                 }
                             }
@@ -132,14 +148,23 @@ export default async function handler  (req, res){
                         include: {
                             Category: {
                                 select: {
-                                    category_name
+                                    category_name: true
+                                }
+                            }
+                        }
+                    },
+                    KeywordList: {
+                        include: {
+                            Keyword: {
+                                select: {
+                                    keyword_name: true
                                 }
                             }
                         }
                     }
 
                 },
-                take: type == 'Documents' ? limit: Math.ceil(limit/2),
+                take: type == 'Documents' ? limit: Math.ceil(limit / 2),
                 orderBy: [
                     {document_title: 'asc'}
                 ]
@@ -154,24 +179,33 @@ export default async function handler  (req, res){
                 publish_location: document.publish_location,
                 country: document.country,
                 description: document.description,
-                link: document.link,
                 language: document.language,
                 author: AuthorDocuments.map(author_document =>
                     `${author_document.Document.first_name}
                     ${author_document.Document.last_name}`.trim()
-                )
-                
+                ),
+                category: document.CategoryList.map(cl =>cl.Category.category_name),
+                keyword: document.KeywordList.map(kl => kl.keyword.keyword_name),
+                link: document.link,
+                type: 'document'
             }))
-            result = [...results, ...documentResults]
+            results = [...results, ...documentResults]
+
 
         }
-        else if (type == 'Document'){
-            
 
-        }
+        return res.status(200).json({
+            success: true,
+            results: results,
+            count: results.length
+        })
 
     }catch(error) {
         console.error("Error with search: ", error)
-        throw createBuilderStatusReporter({statusCode: 400, statusMessage: "Error with search query"});
+        return res.status(500).json({
+            success: true,
+            message: 'Internal error',
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        })
     }
 }

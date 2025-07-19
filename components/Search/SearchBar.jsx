@@ -23,7 +23,7 @@ export const SearchBar = () => {
         if (debounceRef.current){
             clearTimeout(debounceRef.current)
         }
-
+ 
 
         debounceRef.current = setTimeout(async()=>{
             if (value.trim().length >=2){
@@ -74,8 +74,8 @@ export const SearchBar = () => {
     };
 
     const handleChange = (value) => {
-        setQuery(value)
-        fetchData(value)
+        setQuery(value || '')
+        fetchData(value || '')
     }
 
     const handleTypeChange = (type) => {
@@ -121,6 +121,14 @@ export const SearchBar = () => {
                 break;
         }
     };
+
+    const iconClickSearch = (results) =>{
+        setQuery(results.title)
+        setOpen(false)
+        setSelectedIndex(-1)
+        console.log('Selected: ', results)
+
+    }
 
     useEffect (()=>{
         const handleOutsideClick = (event) =>{
@@ -189,6 +197,7 @@ return (
                     ) : (
                         <img
                             className='search_icon' 
+                            onClick={()=>iconClickSearch(results)}
                             alt='Search icon'
                             src={search.src}
                             style={{width: '19px', height: '19px'}}

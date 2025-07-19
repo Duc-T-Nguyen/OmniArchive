@@ -15,9 +15,15 @@ function ContentPage() {
         </div>
 
         <div>
-          
+          <table className='w-full border-collapse text-sm text-gray-800 bg-gray-50'>
+            <thead>
+              <tr>
+               header
+              </tr>
+            </thead>
+
+          </table>
         </div>
-        
       </>
 
   );
