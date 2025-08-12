@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id                   Int            @id @default(autoincrement())
+  category_name        String
+  category_description String?
+  CategoryList         CategoryList[]
+
+  @@map("Category")
+}
+
+model Keyword {
+  id                  Int           @id @default(autoincrement())
+  keyword_name        String
+  keyword_description String?
+  KeywordList         KeywordList[]
+
+  @@map("Keyword")
+}
+
+model Author {
+  id              Int               @id @default(autoincrement())
+  country         String
+  first_name      String
+  last_name       String
+  AuthorBooks     AuthorBooks[]
+  AuthorDocuments AuthorDocuments[]
+
+  @@map("Author")
+}
+
+model Book {
+  id               Int            @id @default(autoincrement())
+  book_title       String
+  publisher        String
+  translator       String?
+  publish_date     String
+  publish_location String
+  country          String
+  description      String
+  link             String
+  language         String
+  isbn             String         @unique
+  AuthorBooks      AuthorBooks[]
+  CategoryList     CategoryList[]
+  KeywordList      KeywordList[]
+
+  @@map("book")
+}
+
+model Document {
+  id               Int               @id @default(autoincrement())
+  document_title   String
+  translator       String?
+  publish_date     String
+  publisher        String
+  publish_location String
+  country          String
+  description      String
+  link             String
+  language         String
+  AuthorDocuments  AuthorDocuments[]
+  CategoryList     CategoryList[]
+  KeywordList      KeywordList[]
+
+  @@map("document")
+}
+
+model AuthorBooks {
+  author_id Int
+  book_id   Int
+  Author    Author @relation(fields: [author_id], references: [id])
+  Book      Book   @relation(fields: [book_id], references: [id])
+
+  @@id([author_id, book_id])
+  @@map("AuthorBooks")
+}
+
+model AuthorDocuments {
+  author_id    Int
+  documents_id Int
+  Author       Author   @relation(fields: [author_id], references: [id])
+  Document     Document @relation(fields: [documents_id], references: [id])
+
+  @@id([author_id, documents_id])
+  @@map("AuthorDocuments")
+}
+
+model CategoryList {
+  id          Int       @id @default(autoincrement())
+  book_id     Int?
+  document_id Int?
+  category_id Int
+  Book        Book?     @relation(fields: [book_id], references: [id])
+  Document    Document? @relation(fields: [document_id], references: [id])
+  Category    Category  @relation(fields: [category_id], references: [id])
+
+  @@unique([book_id, category_id])
+  @@unique([document_id, category_id])
+  @@map("CategoryList")
+}
+
+model KeywordList {
+  id          Int       @id @default(autoincrement())
+  document_id Int?
+  book_id     Int?
+  keyword_id  Int
+  Book        Book?     @relation(fields: [book_id], references: [id])
+  Document    Document? @relation(fields: [document_id], references: [id])
+  Keyword     Keyword   @relation(fields: [keyword_id], references: [id])
+
+  @@unique([book_id, keyword_id])
+  @@unique([document_id, keyword_id])
+  @@map("KeywordList")
+}

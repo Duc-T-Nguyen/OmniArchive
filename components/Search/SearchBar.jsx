@@ -3,16 +3,15 @@
 import { useEffect, useState, useRef } from 'react';
 import search from '../../assets/search.png';
 import './SearchBar.css'
-import { stringify } from 'querystring';
 
 export const SearchBar = () => {
-    const [query, setQuery] = useState(''); // holds the query for the API call of /api/search
-    const [error, setError] = useState(null); // holds error for failed API call of /api/search
-    const [results, setResults] = useState([]); // holds the results from API call of /api/search
-    const [isOpen, setOpen] = useState(false); // controls dropdown of results
-    const [isLoading, setLoading] = useState(false); // shows loading state
-    const [selectedType, setSelectedType] = useState('all'); // sets the type of object is searched ex: only books, documents, or all
-    const [selectedIndex, setSelectedIndex] = useState(-1); // tracks keyboard navigation
+    const [query, setQuery] = useState(''); {/* holds the query for the API call of /api/search */}
+    const [error, setError] = useState(null); {/* holds error for failed API call of /api/search */}
+    const [results, setResults] = useState([]); {/* holds the results from API call of /api/search */}
+    const [isOpen, setOpen] = useState(false); {/* controls dropdown of results */}
+    const [isLoading, setLoading] = useState(false); {/* shows loading state */}
+    const [selectedType, setSelectedType] = useState('All'); {/* sets the type of object is searched ex: only books, documents, or all */}
+    const [selectedIndex, setSelectedIndex] = useState(-1); {/* tracks keyboard navigation */}
 
     const searchRef = useRef(null); 
     const debounceRef = useRef(null);
@@ -49,7 +48,8 @@ export const SearchBar = () => {
                 })
 
                 if(!response.ok){
-                    throw new Error('Search Failed')
+                    const errorData = await response.json();
+                    throw new Error(errorData || 'Search Failed')
                 }
 
                 const data = await response.json();
@@ -74,8 +74,9 @@ export const SearchBar = () => {
     };
 
     const handleChange = (value) => {
-        setQuery(value || '')
-        fetchData(value || '')
+        const newVal = value || "";
+        setQuery(newVal)
+        fetchData(newVal)
     }
 
     const handleTypeChange = (type) => {
@@ -88,7 +89,8 @@ export const SearchBar = () => {
     }
 
     const handleResultClick = (results) =>{
-        setQuery(results.title);
+        const title = results.book_title || results.document_title || "";
+        setQuery(title);
         setOpen(false);
         setSelectedIndex(-1);
         console.log('Selected: ', results);
@@ -122,11 +124,10 @@ export const SearchBar = () => {
         }
     };
 
-    const iconClickSearch = (results) =>{
-        setQuery(results.title)
-        setOpen(false)
-        setSelectedIndex(-1)
-        console.log('Selected: ', results)
+    const iconClickSearch = () =>{
+        if(query.trim().length >=2){
+            fetchData(query);
+        }
 
     }
 
@@ -140,7 +141,7 @@ export const SearchBar = () => {
 
         document.addEventListener('mousedown', handleOutsideClick);
         return ()  =>{
-            document.addEventListener('mousedown', handleOutsideClick);
+            document.removeEventListener('mousedown', handleOutsideClick);
         };
     },[]);
 
@@ -152,12 +153,11 @@ export const SearchBar = () => {
                 clearTimeout(debounceRef.current);
             }
         }
-    })
+    },[])
     
 return (
 
     <div className="search-container" ref={searchRef}>
-            {/* Search Type Filters - positioned above your search bar */}
             <div className="search-filters">
                 <button 
                     className={`filter-btn ${selectedType === 'All' ? 'active' : ''}`}
@@ -178,17 +178,15 @@ return (
                     Documents
                 </button>
             </div>
-
-            {/* Your existing search bar structure */}
             <div className='input_wrapper'>
                 <input 
                     className='input' 
-                    placeholder={`Type to search ${selectedType === 'all' ? 'All' : selectedType}...`}
+                    placeholder={`Type to search ${selectedType === 'All' ? 'All' : selectedType}...`}
                     value={query} 
                     onChange={(e) => handleChange(e.target.value)}
                     onKeyDown={handleKeyDown}
                     onFocus={() => {
-                        if (results.length > 0) setIsOpen(true);
+                        if (results.length > 0) setOpen(true);
                     }}
                 />
                 <div>
@@ -197,7 +195,7 @@ return (
                     ) : (
                         <img
                             className='search_icon' 
-                            onClick={()=>iconClickSearch(results)}
+                            onClick={()=>iconClickSearch}
                             alt='Search icon'
                             src={search.src}
                             style={{width: '19px', height: '19px'}}
@@ -205,15 +203,11 @@ return (
                     )}
                 </div>
             </div>
-
-            {/* Error Message */}
             {error && (
                 <div className="error-message">
                     {error}
                 </div>
             )}
-
-            {/* Search Results Dropdown */}
             {isOpen && results.length > 0 && (
                 <div className="search-results">
                     {results.map((results, index) => (
@@ -223,10 +217,10 @@ return (
                             onClick={() => handleResultClick(results)}
                         >
                             <div className="results-main">
-                                <div className="results-title">{results.title}</div>
+                                <div className="results-title">{results.book_title || results.document_title || "Untitled"}</div>
                                 <div className="results-meta">
                                     <span className={`results-type ${results.type}`}>
-                                        {results.type.charAt(0).toUpperCase() + results.type.slice(1, -1)}
+                                        {results.type.charAt(0).toUpperCase() + results.type.slice(1)}
                                     </span>
                                     {results.authors && results.authors.length > 0 && (
                                         <span className="results-authors">
@@ -249,7 +243,7 @@ return (
                         </div>
                     ))}
                     
-                    {/* Show more results link */}
+                    // Show more results link 
                     {results.length >= 10 && (
                         <div className="search-results-item show-more">
                             <div className="results-title">
@@ -260,7 +254,6 @@ return (
                 </div>
             )}
 
-            {/* No results message */}
             {isOpen && results.length === 0 && query.length >= 2 && !isLoading && (
                 <div className="search-results">
                     <div className="no-results">
