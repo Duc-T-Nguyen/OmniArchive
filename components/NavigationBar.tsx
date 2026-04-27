@@ -88,19 +88,28 @@ export default function Navbar() {
         ))}
 
         <a
-          href="https://github.com/Duc-T-Nguyen"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            color: "var(--accent-primary)",
-            textDecoration: "none",
-            border: "1px solid var(--border)",
-            padding: "4px 14px",
-            borderRadius: "4px",
-            transition: "background 0.2s",
-          }}
+        href="https://github.com/Duc-T-Nguyen"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          color: "var(--accent-primary)",
+          textDecoration: "none",
+          border: "1px solid var(--border)",
+          padding: "4px 14px",
+          borderRadius: "4px",
+          transition: "background 0.2s, box-shadow 0.2s",
+          display: "inline-block",
+        }}
+        onMouseEnter={(e) => {
+          (e.currentTarget as HTMLElement).style.background = "var(--accent-glow)";
+          (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px var(--accent-glow)";
+        }}
+        onMouseLeave={(e) => {
+          (e.currentTarget as HTMLElement).style.background = "transparent";
+          (e.currentTarget as HTMLElement).style.boxShadow = "none";
+        }}
         >
-          GitHub ↗
+          Go to GitHub
         </a>
         
       </div>

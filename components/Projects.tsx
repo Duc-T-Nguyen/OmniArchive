@@ -13,11 +13,11 @@ const projects = [
   },
   {
     id: 2,
-    name: "Project Two",
+    name: "P2P Network Simulation",
     description:
-      "Describe your second project here. What problem does it solve? What did you learn building it?",
+      "This P2P project implements a simple BitTorrent like peer-to-peer file sharing client. The project is designed to allow distributed file sharing, including a tracker server, torrent file creation method, and peer clients that are able to both seed and download files.",
     tags: ["React", "Node.js", "PostgreSQL"],
-    github: "https://github.com/Duc-T-Nguyen",
+    github: "https://github.com/Duc-T-Nguyen/P2P-Network-Project",
     live: null,
     featured: false,
   },
