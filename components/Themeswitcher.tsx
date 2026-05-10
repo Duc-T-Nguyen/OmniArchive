@@ -124,7 +124,6 @@ export default function ThemeSwitcher() {
 
     localStorage.setItem(STORAGE_KEY, id);
     setActiveId(id);
-    setOpen(false);
   }
 
   // Load saved theme on mount
@@ -225,6 +224,7 @@ export default function ThemeSwitcher() {
                       : "none",
                 }}
               >
+                ==
                 {theme.label}
                 {activeId === theme.id && (
                   <span
@@ -234,9 +234,10 @@ export default function ThemeSwitcher() {
                       color: "var(--accent-primary)",
                     }}
                   >
-                    ✓
+                  
                   </span>
                 )}
+                ==
               </button>
             ))}
           </div>

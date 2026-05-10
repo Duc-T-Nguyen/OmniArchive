@@ -102,7 +102,7 @@ export default function Navbar() {
         }}
         onMouseEnter={(e) => {
           (e.currentTarget as HTMLElement).style.background = "var(--accent-glow)";
-          (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px var(--accent-glow)";
+          (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 10px var(--accent-glow)";
         }}
         onMouseLeave={(e) => {
           (e.currentTarget as HTMLElement).style.background = "transparent";
