@@ -53,7 +53,7 @@ export default function Hero() {
           position: "absolute",
           inset: 0,
           backgroundImage:
-            "linear-gradient(rgba(110,231,183,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(110,231,183,0.04) 1px, transparent 1px)",
+            "linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)",
           backgroundSize: "60px 60px",
           pointerEvents: "none",
         }}

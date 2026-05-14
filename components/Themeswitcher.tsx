@@ -18,9 +18,11 @@ const themes = [
       "--border":            "rgba(110, 231, 183, 0.2)",
       "--font-display":      "'Orbitron', sans-serif",
       "--font-mono":         "'Space Mono', monospace",
-    },
+      "--grid-line":         "transparent", // "rgba(110, 231, 183, 0.04)", --- IGNORE ---
   },
+},
   {
+
     id: "midnight",
     label: "Midnight",
     fonts: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;700;800&display=swap",
@@ -36,6 +38,7 @@ const themes = [
       "--border":            "rgba(96, 165, 250, 0.2)",
       "--font-display":      "'Inter', sans-serif",
       "--font-mono":         "'JetBrains Mono', monospace",
+      "--grid-line":         "transparent", // "rgba(96, 165, 250, 0.04)", --- IGNORE ---
     },
   },
   {
@@ -54,6 +57,7 @@ const themes = [
       "--border":            "rgba(134, 239, 172, 0.2)",
       "--font-display":      "'Playfair Display', serif",
       "--font-mono":         "'Fira Code', monospace",
+      "--grid-line":         "transparent", // "rgba(134, 239, 172, 0.04)", --- IGNORE ---
     },
   },
   {
@@ -72,6 +76,7 @@ const themes = [
       "--border":            "rgba(251, 146, 60, 0.2)",
       "--font-display":      "'Outfit', sans-serif",
       "--font-mono":         "'IBM Plex Mono', monospace",
+      "--grid-line":         "transparent", // "rgba(251, 146, 60, 0.04)", --- IGNORE ---
     },
   },
   {
@@ -90,6 +95,7 @@ const themes = [
       "--border":            "rgba(8, 145, 178, 0.25)",
       "--font-display":      "'IBM Plex Sans', sans-serif",
       "--font-mono":         "'IBM Plex Mono', monospace",
+      "--grid-line":         "transparent", // "rgba(8, 145, 178, 0.1)", --- IGNORE ---
     },
   },
 ] as const;
