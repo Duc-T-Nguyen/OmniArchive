@@ -199,7 +199,6 @@ export default function ThemeSwitcher() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "0.6rem",
                   padding: "0.5rem 0.75rem",
                   borderRadius: "6px",
                   border: "none",
@@ -208,37 +207,23 @@ export default function ThemeSwitcher() {
                   fontSize: "0.8rem",
                   letterSpacing: "0.03em",
                   transition: "background 0.15s",
-                  background:
-                    activeId === theme.id
-                      ? "var(--accent-glow)"
-                      : "transparent",
-                  color:
-                    activeId === theme.id
-                      ? "var(--accent-primary)"
-                      : "var(--text-muted)",
+                  background: activeId === theme.id ? "var(--accent-glow)" : "transparent",
+                  color: activeId === theme.id ? "var(--accent-primary)" : "var(--text-muted)",
                   width: "100%",
                   textAlign: "left",
-                  outline:
-                    activeId === theme.id
-                      ? "1px solid var(--border)"
-                      : "none",
+                  outline: activeId === theme.id ? "1px solid var(--border)" : "none",
                 }}
               >
-                ==
-                {theme.label}
-                {activeId === theme.id && (
-                  <span
-                    style={{
-                      marginLeft: "auto",
-                      fontSize: "0.6rem",
-                      color: "var(--accent-primary)",
-                    }}
-                  >
-                  
+                <span style={{ opacity: 0.5 }}>=</span>
+                <span style={{ opacity: 0.5 }}>=</span>
+                <span style={{ margin: "0 0.4rem" }}>
+                  {activeId === theme.id &&  <span style = {{opacity: .5}}> * </span>}
+                  {theme.label}
+                  {activeId === theme.id &&  <span style = {{opacity: .5}}> * </span>}
                   </span>
-                )}
-                ==
-              </button>
+                <span style={{ opacity: 0.5, marginLeft: "auto" }}>=</span>
+                <span style={{ opacity: 0.5 }}>=</span>
+            </button> 
             ))}
           </div>
         )}

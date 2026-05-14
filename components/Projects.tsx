@@ -3,11 +3,11 @@
 const projects = [
   {
     id: 1,
-    name: "OmniArchive",
+    name: "Computer Vision Object Recognition Project",
     description:
-      "A personal portfolio and project archive built with Next.js, TypeScript, and Prisma. Showcases all my work in one place.",
-    tags: ["Next.js", "TypeScript", "Prisma", "Docker"],
-    github: "https://github.com/Duc-T-Nguyen/OmniArchive",
+      "A project focused on implementing object recognition algorithms in computer vision applications.",
+    tags: ["Python", "Yolov8", "Jetson", "Computer Vision"],
+    github: "https://github.com/Duc-T-Nguyen/Computer-Vision-Object-Recognition/tree/one_pass_model",
     live: null,
     featured: true,
   },
@@ -23,11 +23,11 @@ const projects = [
   },
   {
     id: 3,
-    name: "Project Three",
+    name: "Geospatial Dashboard Chatbot",
     description:
-      "Describe your third project here. Keep it punchy — one or two sentences that explain the what and the why.",
-    tags: ["TypeScript", "REST API", "Docker"],
-    github: "https://github.com/Duc-T-Nguyen",
+      "A chatbot integrated into a geospatial dashboard for analyzing and visualizing environmental data.",
+    tags: ["TypeScript", "JavaScript", "CSS", "Python", "Claude Haiku", "Qwen3-VL"],
+    github: "https://github.com/kevalshah2005/Aerial-Damage-Analysis-VLM",
     live: null,
     featured: false,
   },
