@@ -3,22 +3,22 @@
 import { useState, useEffect } from "react";
 const themes = [
   {
-    id: "cyber",
-    label: "Cyber",
-    fonts: "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap",
-    vars: {
-      "--bg-deep":           "#0a0a0f",
-      "--bg-surface":        "#12121a",
-      "--bg-raised":         "#1a1a28",
-      "--accent-primary":    "#6ee7b7",
-      "--accent-secondary":  "#7c3aed",
-      "--accent-glow":       "rgba(110, 231, 183, 0.15)",
-      "--text-primary":      "#f0f0ff",
-      "--text-muted":        "#8888aa",
-      "--border":            "rgba(110, 231, 183, 0.2)",
-      "--font-display":      "'Orbitron', sans-serif",
-      "--font-mono":         "'Space Mono', monospace",
-      "--grid-line":         "transparent", // "rgba(110, 231, 183, 0.04)", --- IGNORE ---
+    id: "coffee",
+    label: "Coffee",
+  fonts: "https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=Noto+Sans:wght@400;500;600&display=swap",
+  vars: {
+    "--bg-deep":           "#0d1117",
+    "--bg-surface":        "#161b25",
+    "--bg-raised":         "#1f2736",
+    "--accent-primary":    "#c8a96e",
+    "--accent-secondary":  "#4a7fa5",
+    "--accent-glow":       "rgba(200, 169, 110, 0.12)",
+    "--text-primary":      "#e8e6e1",
+    "--text-muted":        "#8a9bb0",
+    "--border":            "rgba(200, 169, 110, 0.2)",
+    "--font-display":      "'Noto Serif', serif",
+    "--font-mono":         "'Noto Sans', sans-serif",
+    "--grid-line":         "transparent",
   },
 },
   {
@@ -105,7 +105,7 @@ type ThemeId = (typeof themes)[number]["id"];
 const STORAGE_KEY = "omniarchive-theme";
 
 export default function ThemeSwitcher() {
-  const [activeId, setActiveId] = useState<ThemeId>("cyber");
+  const [activeId, setActiveId] = useState<ThemeId>("coffee");
   const [open, setOpen] = useState(false);
 
   // Apply theme to :root CSS variables

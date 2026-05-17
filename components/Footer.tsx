@@ -22,7 +22,7 @@ export default function Footer() {
           color: "var(--text-muted)",
         }}
       >
-        {`// built by `}
+        {`* by `}
         <a
           href="https://github.com/Duc-T-Nguyen"
           target="_blank"
@@ -35,6 +35,7 @@ export default function Footer() {
       </p>
 
       <div style={{ display: "flex", gap: "1.5rem" }}>
+        Access Links: 
         {[
           { label: "GitHub",   href: "https://github.com/Duc-T-Nguyen" },
           { label: "LinkedIn", href: "https://linkedin.com" },
@@ -49,8 +50,7 @@ export default function Footer() {
               fontSize: "0.78rem",
               color: "var(--text-muted)",
               textDecoration: "none",
-              transition: "color 0.2s",
-            }}
+              transition: "color 0.2s",}}
             onMouseEnter={(e) =>
               ((e.target as HTMLElement).style.color = "var(--accent-primary)")
             }

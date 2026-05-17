@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const roles = [
   "Full-Stack Developer",
   "Next.js Engineer",
-  "Open Source Builder",
+  "LeetCode Enthusiast",
   "Problem Solver",
 ];
 
@@ -121,8 +121,7 @@ export default function Hero() {
             color: "var(--text-muted)",
             marginBottom: "2rem",
             minHeight: "2.5rem",
-            animationDelay: "0.3s",
-          }}
+            animationDelay: "0.3s",}}
         >
           {displayed}
           <span
@@ -150,8 +149,7 @@ export default function Hero() {
             animationDelay: "0.4s",
           }}
         >
-          I build things for the web — clean, fast, purposeful. This is my
-          archive of projects, experiments, and craft.
+         I am a Dallas County-based software engineer with skills in full-stack web development, Machine-Learning models, Artificial Intelligence, and cloud management. I am passionate about building impactful projects and contributing to the open-source community.
         </p>
 
         <div
@@ -213,39 +211,6 @@ export default function Hero() {
           >
             Contact Me
           </a>
-        </div>
-
-        {/* Scroll indicator */}
-        <div
-          className="fade-up"
-          style={{
-            marginTop: "5rem",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.75rem",
-            animationDelay: "0.8s",
-          }}
-        >
-          <div
-            style={{
-              width: "1px",
-              height: "60px",
-              background: "linear-gradient(to bottom, transparent, var(--accent-primary))",
-            }}
-          />
-          <span
-            style={{
-              fontSize: "0.7rem",
-              color: "var(--text-muted)",
-              letterSpacing: "0.15em",
-              fontFamily: "var(--font-mono)",
-              transform: "rotate(90deg)",
-              transformOrigin: "left center",
-              marginLeft: "20px",
-            }}
-          >
-            SCROLL
-          </span>
         </div>
       </div>
     </section>

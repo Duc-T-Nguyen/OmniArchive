@@ -1,4 +1,5 @@
 "use client";
+import { useState, useMemo } from "react";
 
 const projects = [
   {
@@ -16,7 +17,7 @@ const projects = [
     name: "P2P Network Simulation",
     description:
       "This P2P project implements a simple BitTorrent like peer-to-peer file sharing client. The project is designed to allow distributed file sharing, including a tracker server, torrent file creation method, and peer clients that are able to both seed and download files.",
-    tags: ["React", "Node.js", "PostgreSQL"],
+    tags: ["Python", "BitTorrent Protocol", "Networking"],
     github: "https://github.com/Duc-T-Nguyen/P2P-Network-Project",
     live: null,
     featured: false,
@@ -32,16 +33,17 @@ const projects = [
     featured: false,
   },
 ];
-// ─────────────────────────────────────────────────────────────────────────────
 
-function ProjectCard({ project }: { project: (typeof projects)[0] }) {
+const allTags = Array.from(new Set(projects.flatMap((p) => p.tags))).sort(); // Get unique tags for filtering 
+
+function ProjectCard({ project, activeTags, onTagClick }: { project: (typeof projects)[0]; activeTags: Set<string>; onTagClick: (tag:string) => void }) {
   return (
     <div
       style={{
         background: "var(--bg-surface)",
         border: project.featured
-          ? "1px solid rgba(110, 231, 183, 0.35)"
-          : "1px solid rgba(110, 231, 183, 0.1)",
+          ? "1px solid var(--border)"
+          : "1px solid rgba(110, 231, 183, 0.08)",
         borderRadius: "10px",
         padding: "1.75rem",
         display: "flex",
@@ -54,13 +56,13 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
       }}
       onMouseEnter={(e) => {
         (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
-        (e.currentTarget as HTMLElement).style.borderColor = "rgba(110, 231, 183, 0.5)";
+        (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
         (e.currentTarget as HTMLElement).style.borderColor = project.featured
-          ? "rgba(110, 231, 183, 0.35)"
-          : "rgba(110, 231, 183, 0.1)";
+          ? "var(--border)"
+          : "rgba(110, 231, 183, 0.08)";
       }}
     >
       {/* Featured badge */}
@@ -73,10 +75,10 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
             fontFamily: "var(--font-mono)",
             fontSize: "0.65rem",
             color: "var(--accent-primary)",
-            background: "rgba(110, 231, 183, 0.12)",
+            background: "var(--accent-glow)",
             padding: "2px 10px",
             borderRadius: "100px",
-            border: "1px solid rgba(110, 231, 183, 0.3)",
+            border: "1px solid var(--border)",
             letterSpacing: "0.08em",
           }}
         >
@@ -93,6 +95,7 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
           fontWeight: 700,
           fontSize: "1.15rem",
           color: "var(--text-primary)",
+          paddingRight: project.featured ? "5rem" : "0",
         }}
       >
         {project.name}
@@ -115,15 +118,18 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
         {project.tags.map((tag) => (
           <span
             key={tag}
+            onClick={()=> onTagClick(tag)}
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: "0.68rem",
               padding: "2px 10px",
-              border: "1px solid rgba(124, 58, 237, 0.3)",
+              border: activeTags.has(tag) ? "1px solid var(--accent-primary)" : "1px solid rgba(124, 58, 237, 0.3)",
               borderRadius: "100px",
-              color: "#a78bfa",
-              background: "rgba(124, 58, 237, 0.08)",
+              color: activeTags.has(tag) ? "var(--accent-primary)" : "#a78bfa",
+              background: activeTags.has(tag) ? "var(--accent-glow)" : "rgba(124, 58, 237, 0.08)",
               letterSpacing: "0.04em",
+              cursor: "pointer", 
+              transition: "all 0.15s",
             }}
           >
             {tag}
@@ -180,7 +186,7 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
               ((e.currentTarget as HTMLElement).style.color = "var(--text-muted)")
             }
           >
-            ↗ Live
+            Live
           </a>
         )}
       </div>
@@ -189,6 +195,39 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
 }
 
 export default function Projects() {
+  const [query, setQuery] = useState("");
+  const [activeTags, setActiveTags] = useState<Set<string>>(new Set());
+  const [showFilters, setShowFilters] = useState(false);
+ 
+  function toggleTag(tag: string) {
+    setActiveTags((prev) => {
+      const next = new Set(prev);
+      next.has(tag) ? next.delete(tag) : next.add(tag);
+      return next;
+    });
+  }
+ 
+  function reset() {
+    setQuery("");
+    setActiveTags(new Set());
+  }
+ 
+  const filtered = useMemo(() => {
+    return projects.filter((p) => {
+      const q = query.toLowerCase();
+      const matchesQuery =
+        !q ||
+        p.name.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q) ||
+        p.tags.some((t) => t.toLowerCase().includes(q));
+      const matchesTags =
+        activeTags.size === 0 || [...activeTags].every((t) => p.tags.includes(t));
+      return matchesQuery && matchesTags;
+    });
+  }, [query, activeTags]);
+ 
+  const hasFilters = query !== "" || activeTags.size > 0;
+ 
   return (
     <section id="projects">
       <p
@@ -202,7 +241,7 @@ export default function Projects() {
       >
         {"Projects"}
       </p>
-
+ 
       <h2
         style={{
           fontFamily: "var(--font-display)",
@@ -216,13 +255,13 @@ export default function Projects() {
         Things I&apos;ve{" "}
         <span style={{ color: "var(--accent-primary)" }}>built</span>
       </h2>
-
+ 
       <p
         style={{
           fontFamily: "var(--font-mono)",
           fontSize: "0.88rem",
           color: "var(--text-muted)",
-          marginBottom: "3rem",
+          marginBottom: "2rem",
           maxWidth: "480px",
         }}
       >
@@ -236,7 +275,188 @@ export default function Projects() {
           GitHub ↗
         </a>
       </p>
-
+ 
+      {/* ── Search bar ── */}
+      <div
+        style={{
+          display: "flex",
+          gap: "0.75rem",
+          marginBottom: "1rem",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+            gap: "0.6rem",
+            background: "var(--bg-surface)",
+            border: "1px solid var(--border)",
+            borderRadius: "6px",
+            padding: "0.6rem 1rem",
+          }}
+        >
+          <span style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>⌕</span>
+          <input
+            type="text"
+            placeholder="Search projects..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            style={{
+              flex: 1,
+              background: "transparent",
+              border: "none",
+              outline: "none",
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.85rem",
+              color: "var(--text-primary)",
+            }}
+          />
+          {query && (
+            <button
+              onClick={() => setQuery("")}
+              style={{
+                background: "none",
+                border: "none",
+                color: "var(--text-muted)",
+                cursor: "pointer",
+                fontSize: "1rem",
+                lineHeight: 1,
+                padding: 0,
+              }}
+            >
+              ×
+            </button>
+          )}
+        </div>
+ 
+        {/* Toggle filters button */}
+        <button
+          onClick={() => setShowFilters((v) => !v)}
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.78rem",
+            padding: "0.6rem 1.1rem",
+            borderRadius: "6px",
+            border: showFilters ? "1px solid var(--accent-primary)" : "1px solid var(--border)",
+            background: showFilters ? "var(--accent-glow)" : "var(--bg-surface)",
+            color: showFilters ? "var(--accent-primary)" : "var(--text-muted)",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.4rem",
+            transition: "all 0.15s",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {showFilters ? "∧" : "∨"} {showFilters ? "Hide filters" : "Show filters"}
+          {activeTags.size > 0 && (
+            <span
+              style={{
+                background: "var(--accent-primary)",
+                color: "var(--bg-deep)",
+                borderRadius: "100px",
+                fontSize: "0.6rem",
+                padding: "1px 6px",
+                fontWeight: 700,
+              }}
+            >
+              {activeTags.size}
+            </span>
+          )}
+        </button>
+      </div>
+ 
+      {/* ── Tag filter panel ── */}
+      {showFilters && (
+        <div
+          style={{
+            background: "var(--bg-surface)",
+            border: "1px solid var(--border)",
+            borderRadius: "8px",
+            padding: "1rem 1.25rem",
+            marginBottom: "1.5rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.75rem",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.65rem",
+              color: "var(--text-muted)",
+              letterSpacing: "0.12em",
+              margin: 0,
+            }}
+          >
+            FILTER BY TAG
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+            {allTags.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => toggleTag(tag)}
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.72rem",
+                  padding: "4px 12px",
+                  borderRadius: "100px",
+                  border: activeTags.has(tag)
+                    ? "1px solid var(--accent-primary)"
+                    : "1px solid var(--border)",
+                  background: activeTags.has(tag) ? "var(--accent-glow)" : "transparent",
+                  color: activeTags.has(tag) ? "var(--accent-primary)" : "var(--text-muted)",
+                  cursor: "pointer",
+                  transition: "all 0.15s",
+                  letterSpacing: "0.03em",
+                }}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+ 
+          {hasFilters && (
+            <button
+              onClick={reset}
+              style={{
+                alignSelf: "flex-end",
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.72rem",
+                color: "var(--accent-secondary, #a78bfa)",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                letterSpacing: "0.04em",
+                opacity: 0.8,
+              }}
+            >
+              Reset filters
+            </button>
+          )}
+        </div>
+      )}
+ 
+      {/* ── Results count ── */}
+      {hasFilters && (
+        <p
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.75rem",
+            color: "var(--text-muted)",
+            marginBottom: "1.25rem",
+            letterSpacing: "0.04em",
+          }}
+        >
+          {filtered.length === 0
+            ? "No projects match."
+            : `${filtered.length} project${filtered.length !== 1 ? "s" : ""} found`}
+        </p>
+      )}
+ 
+      {/* ── Project grid ── */}
       <div
         style={{
           display: "grid",
@@ -244,8 +464,13 @@ export default function Projects() {
           gap: "1.5rem",
         }}
       >
-        {projects.map((p) => (
-          <ProjectCard key={p.id} project={p} />
+        {filtered.map((p) => (
+          <ProjectCard
+            key={p.id}
+            project={p}
+            activeTags={activeTags}
+            onTagClick={toggleTag}
+          />
         ))}
       </div>
     </section>
