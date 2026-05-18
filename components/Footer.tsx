@@ -35,7 +35,6 @@ export default function Footer() {
       </p>
 
       <div style={{ display: "flex", gap: "1.5rem" }}>
-        Access Links: 
         {[
           { label: "GitHub",   href: "https://github.com/Duc-T-Nguyen" },
           { label: "LinkedIn", href: "https://linkedin.com" },

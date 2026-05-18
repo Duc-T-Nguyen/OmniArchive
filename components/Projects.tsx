@@ -32,6 +32,36 @@ const projects = [
     live: null,
     featured: false,
   },
+  {
+    id: 4,
+    name: "Simple Animal Guessing Game",
+    description:
+      "A simple game where players guess the type of animal based on a series of clues.",
+    tags: ["C++", "Game",],
+    github: "https://github.com/Duc-T-Nguyen/Animal-Guessing-Game",
+    live: null,
+    featured: false,
+  },
+  {
+    id: 5, 
+    name: "Animal Registry System",
+    description:
+      "A command-line application for managing a registry of cats and dogs, allowing users to add, view, and search for animals in the system.",
+    tags: ["C++", "Database", "CLI"],
+    github: "https://github.com/Duc-T-Nguyen/Animal-Registry-for-Cats-and-Dogs",
+    live: null,
+    featured: false,
+  },
+  {
+    id: 6, 
+    name: "Reading Huddle",
+    description:
+      "A web application that allows users to create and join virtual reading groups, share book recommendations, and discuss literature in real-time.",
+    tags: ["TypeScript", "Next.js", "Web Development", "Tailwind CSS", "Prisma", "PostgreSQL"],
+    github: "https://github.com/UTDallasEPICS/Reading-MLK-Project",
+    live: null,
+    featured: false,
+  }
 ];
 
 const allTags = Array.from(new Set(projects.flatMap((p) => p.tags))).sort(); // Get unique tags for filtering 
