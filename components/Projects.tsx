@@ -37,7 +37,7 @@ const projects = [
     name: "Simple Animal Guessing Game",
     description:
       "A simple game where players guess the type of animal based on a series of clues.",
-    tags: ["C++", "Game",],
+    tags: ["C++", "Game", "Tree"],
     github: "https://github.com/Duc-T-Nguyen/Animal-Guessing-Game",
     live: null,
     featured: false,
@@ -59,6 +59,16 @@ const projects = [
       "A web application that allows users to create and join virtual reading groups, share book recommendations, and discuss literature in real-time.",
     tags: ["TypeScript", "Next.js", "Web Development", "Tailwind CSS", "Prisma", "PostgreSQL"],
     github: "https://github.com/UTDallasEPICS/Reading-MLK-Project",
+    live: null,
+    featured: false,
+  },
+
+  {
+    id: 7,
+    name: "Audio Enhancement API",
+    description: "A lightweight speech enhancement toolkit with a FastAPI endpoint that can denoise audio using either a classical Wiener filter or a learned MetricGAN model.",
+    tags: ["Python", " Wiener filter", "Metricgan+", "Audio Enhancement"],
+    github: "https://github.com/Duc-T-Nguyen/speech-enhancement",
     live: null,
     featured: false,
   }
