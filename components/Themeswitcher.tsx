@@ -104,6 +104,30 @@ type ThemeId = (typeof themes)[number]["id"];
 
 const STORAGE_KEY = "omniarchive-theme";
 
+function PlusMinusIcon({ open }: {open: boolean}) {
+  const bar: React.CSSProperties = {
+    position: "absolute",
+    top: "50%",
+    left: 0,
+    width: "100%",
+    height: "2px",
+    marginTop: "-1px",
+    borderRadius: "2px",
+    background: "var(--accent-primary)",
+    transition: "transform 0.3s ease, background 0.3s ease",
+  };
+
+  return (
+    <span
+     aria-hidden="true"
+     style={{ position: "relative", width: "18px", height: "18px", display: "block"}}
+    >
+      <span style={bar} />
+      <span style={{...bar, transform: open ? "rotate(0deg)" : "rotate(90deg)"}} />
+    </span>
+  );
+}
+
 export default function ThemeSwitcher() {
   const [activeId, setActiveId] = useState<ThemeId>("coffee");
   const [open, setOpen] = useState(false);
@@ -234,10 +258,12 @@ export default function ThemeSwitcher() {
           </div>
         )}
 
-        {/* Toggle button */}
+        {/* Toggle button to switch website theme*/}
         <button
           onClick={() => setOpen((o) => !o)}
           title="Switch theme"
+          aria-label={open ? "Close theme switcher" : "Open theme switcher"}
+          aria-expanded={open}
           style={{
             width: "48px",
             height: "48px",
@@ -248,14 +274,11 @@ export default function ThemeSwitcher() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: "1.3rem",
             boxShadow: "0 4px 16px rgba(0,0,0,0.35)",
-            transition: "transform 0.2s, border-color 0.2s",
-            transform: open ? "rotate(45deg)" : "rotate(0deg)",
+            transition: "border-color 0.2s",
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.borderColor =
-              "var(--accent-primary)";
+            (e.currentTarget as HTMLElement).style.borderColor = "var(--accent-primary)";
           }}
           onMouseLeave={(e) => {
             (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";

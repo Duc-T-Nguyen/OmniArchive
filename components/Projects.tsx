@@ -305,7 +305,7 @@ export default function Projects() {
           maxWidth: "480px",
         }}
       >
-        A selection of projects I&apos;ve worked on. More lives on{" "}
+        A selection of projects I&apos;ve worked on. Click on the link {" "}
         <a
           href="https://github.com/Duc-T-Nguyen"
           target="_blank"
