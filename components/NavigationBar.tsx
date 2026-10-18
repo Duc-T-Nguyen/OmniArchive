@@ -32,10 +32,10 @@ export default function Navbar() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        transition: "background 0.3s, border-bottom 0.3s",
+        transition: "background 0.15s",
         background: scrolled ? "rgba(10, 10, 15, 0.9)" : "transparent",
         backdropFilter: scrolled ? "blur(12px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(110, 231, 183, 0.1)" : "none",
+        borderBottom: "1px solid rgba(110, 231, 183, 0.1)",
       }}
     >
       {/* Logo */}

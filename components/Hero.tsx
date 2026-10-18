@@ -40,7 +40,8 @@ export default function Hero() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        padding: "0 2rem",
+        boxSizing: "border-box",
+        padding: "4.5rem 2rem 0",
         maxWidth: "1100px",
         margin: "0 auto",
         position: "relative",
@@ -75,19 +76,6 @@ export default function Hero() {
       />
 
       <div style={{ position: "relative", zIndex: 1 }}>
-        <p
-          className="fade-up"
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "0.85rem",
-            color: "var(--accent-primary)",
-            marginBottom: "1.5rem",
-            letterSpacing: "0.1em",
-            animationDelay: "0.1s",
-          }}
-        >
-          {">> hello, world —"}
-        </p>
 
         <h1
           className="fade-up"
