@@ -71,6 +71,15 @@ const projects = [
     github: "https://github.com/Duc-T-Nguyen/speech-enhancement",
     live: null,
     featured: false,
+  },
+  {
+    id: 8,
+    name: "OmniArchive",
+    description: "A comprehensive archive of my projects and experiences.",
+    tags: ["TypeScript", "Next.js", "Web Development", "Tailwind CSS"],
+    github: "https://github.com/Duc-T-Nguyen/OmniArchive",
+    live: "https://omniarchive.vercel.app",
+    featured: false,
   }
 ];
 
