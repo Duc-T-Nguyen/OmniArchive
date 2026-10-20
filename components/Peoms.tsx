@@ -9,6 +9,6 @@ const peoms = [
 ]
 export default function Peoms() {
   return (
-
-
-  )}
+    <></>
+  );
+}
